@@ -4,6 +4,9 @@
 *.dll
 *.so
 *.dylib
+mango
+mango_mac
+pkg
 
 # Test binary, built with `go test -c`
 *.test

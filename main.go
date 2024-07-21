@@ -39,6 +39,7 @@ func main() {
 		root = os.Args[2]
 	} else {
 		usage()
+		os.Exit(1)
 	}
 	log.Println("Serving from " + root)
 	log.Println("Listening on port " + port)

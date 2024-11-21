@@ -6,7 +6,9 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/http/cgi"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -26,9 +28,18 @@ func logRequest(handler http.Handler) http.Handler {
 			"content-length": r.ContentLength,
 			"body":           buf.String(),
 		})
+
 		log.Println(string(d))
 		handler.ServeHTTP(w, r)
 	})
+}
+
+func cgiHandler(w http.ResponseWriter, r *http.Request) {
+	handler := cgi.Handler{
+		Path: filepath.Base(r.URL.Path),
+		Dir:  "/Users/bill.birch/workspace/gocode/src/github.com/birchb1024/mango/cgi-bin",
+	}
+	handler.ServeHTTP(w, r)
 }
 
 func main() {
@@ -44,7 +55,7 @@ func main() {
 	log.Println("Listening on port " + port)
 	fs := http.FileServer(http.Dir(root))
 	http.Handle("/", fs)
-
+	http.HandleFunc("/cgi-bin/", cgiHandler)
 	err := http.ListenAndServe(":"+port, logRequest(http.DefaultServeMux))
 	if err != nil {
 		log.Fatal(err)

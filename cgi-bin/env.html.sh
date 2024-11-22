@@ -2,9 +2,9 @@
 echo "Content-type: text/html"
 echo ""
 echo '<html><body>'
-echo 'Hello From Bash <br/>Environment:'
+echo ' <h1>CGI Environment</h1>'
 echo '<pre>'
-/usr/bin/env
+/usr/bin/env | sort
 echo '</pre>'
 echo '</body></html>'
 exit 0
